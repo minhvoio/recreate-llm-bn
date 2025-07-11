@@ -497,7 +497,7 @@ class BNIError(Exception):
 		return self.msg
 
 class Net(Net):
-	def __init__(self, fn = ""):
+	def __init__(self, fn = ""): # fn is a filename
 		self.eNet = None # A pointer to the network as represented by the engine
 		self._autoUpdate = True
 		self.xdsl = None # The .xdsl XML
@@ -543,6 +543,7 @@ class Net(Net):
 							# Convert to floats
 							cpt = [float(f) for f in cptStrs]
 							# Update the in-memory CPT
+							# Usually get err here?
 							self.node(currentNode).cpt1d(cpt)
 						startPos = m.end()
 					else:

@@ -484,25 +484,38 @@ def demorganTests():
 # print('\nDone. Hit Enter to quit')
 # input()
 
-net = Net()
+# net = Net()
 
-# Add nodes
-net.addNode("Smoking", states=["True", "False"])
-net.addNode("LungCancer", states=["True", "False"])
-net.addNode("Bronchitis", states=["True", "False"])
-net.addNode("XRay", states=["True", "False"])
-net.addNode("Cough", states=["True", "False"])
+# net.addNode("Smoking", states=["True", "False"])
+# net.addNode("LungCancer", states=["True", "False"])
+# net.addNode("Bronchitis", states=["True", "False"])
+# net.addNode("XRay", states=["True", "False"])
+# net.addNode("Cough", states=["True", "False"])
 
-# Add arcs (edges)
-net.node("Smoking").addChildren(["LungCancer", "Bronchitis"])
-net.node("LungCancer").addChildren(["XRay", "Cough"])
-net.node("Bronchitis").addChildren(["Cough"])
+# net.node("Smoking").addChildren(["LungCancer", "Bronchitis"])
+# net.node("LungCancer").addChildren(["XRay", "Cough"])
+# net.node("Bronchitis").addChildren(["Cough"])
 
-print("Network structure:")
-for node in net.nodes():
-    print(f"{node.name()} -> {[child.name() for child in node.children()]}")
+# print("Network structure:")
+# for node in net.nodes():
+#     print(f"{node.name()} -> {[child.name() for child in node.children()]}")
 
-print("CPT for Cough:")
-print(net.node("Cough").cpt())
+# # print("CPT for Cough:")
+# # print(net.node("Cough").cpt())
 
-net.write(netDir+'outputs/smoking_lung_cancer.dne')
+# for node in net.nodes():
+# 	node.setRandom()
+# 	print("CPT for", node.name(), ":")
+# 	node.cpt()
+# 	print(node.cpt())
+
+
+# net.write(netDir+'outputs/smoking_lung_cancer.dne')
+
+filePath1 = "outputs/smoking_lung_cancer.dne"
+filePath2 = "outputs/test.dne"
+
+myNet = Net(netDir+filePath1)
+print("Re-opened network structure:")
+for node in myNet.nodes():
+		print(f"{node.name()} -> {[child.name() for child in node.children()]}")

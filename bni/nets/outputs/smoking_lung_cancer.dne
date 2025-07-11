@@ -14,7 +14,7 @@ node Smoking {
     parents = ();
     states = (True, False);
     probs = 
-        (0.50000000, 0.50000000);
+        (0.25651476, 0.74348524);
     user U1 {
     };
 visual V1 {
@@ -31,69 +31,12 @@ node LungCancer {
     parents = (Smoking);
     states = (True, False);
     probs = 
-        ((0.50000000, 0.50000000),
-        (0.50000000, 0.50000000));
+        ((0.72175582, 0.27824418),
+        (0.03101335, 0.96898665));
     user U1 {
     };
 visual V1 {
 	drawingbounds = (50, 50);
     center = (0, 0);
-};
-};
-
-node Bronchitis {
-    kind = NATURE;
-    discrete = TRUE;
-    chance = CHANCE;
-    title = "Bronchitis";
-    parents = (Smoking);
-    states = (True, False);
-    probs = 
-        ((0.50000000, 0.50000000),
-        (0.50000000, 0.50000000));
-    user U1 {
-    };
-visual V1 {
-	drawingbounds = (50, 50);
-    center = (0, 0);
-};
-};
-
-node XRay {
-    kind = NATURE;
-    discrete = TRUE;
-    chance = CHANCE;
-    title = "XRay";
-    parents = (LungCancer);
-    states = (True, False);
-    probs = 
-        ((0.50000000, 0.50000000),
-        (0.50000000, 0.50000000));
-    user U1 {
-    };
-visual V1 {
-	drawingbounds = (50, 50);
-    center = (0, 0);
-};
-};
-
-node Cough {
-    kind = NATURE;
-    discrete = TRUE;
-    chance = CHANCE;
-    title = "Cough";
-    parents = (LungCancer, Bronchitis);
-    states = (True, False);
-    probs = 
-        (((0.50000000, 0.50000000),
-        (0.50000000, 0.50000000)),
-        ((0.50000000, 0.50000000),
-        (0.50000000, 0.50000000)));
-    user U1 {
-    };
-visual V1 {
-	drawingbounds = (50, 50);
-    center = (0, 0);
-};
 };
 };
