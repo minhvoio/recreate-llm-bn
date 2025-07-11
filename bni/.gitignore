@@ -7,7 +7,7 @@ __pycache__
 intermediate
 dll_archive
 desktop.ini
-/nets/outputs/*
+# /nets/outputs/*
 smile-business/
 smile-academic/
 /dll_smile/latest-academic
