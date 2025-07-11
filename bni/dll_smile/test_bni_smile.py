@@ -475,11 +475,34 @@ def demorganTests():
 
 # mainTests()
 # userProps()
-#specialTests()
+# specialTests()
 # equationTests()
 # utilityTests()
 # submodelTests()
-demorganTests()
+# demorganTests()
 
-print('\nDone. Hit Enter to quit')
-input()
+# print('\nDone. Hit Enter to quit')
+# input()
+
+net = Net()
+
+# Add nodes
+net.addNode("Smoking", states=["True", "False"])
+net.addNode("LungCancer", states=["True", "False"])
+net.addNode("Bronchitis", states=["True", "False"])
+net.addNode("XRay", states=["True", "False"])
+net.addNode("Cough", states=["True", "False"])
+
+# Add arcs (edges)
+net.node("Smoking").addChildren(["LungCancer", "Bronchitis"])
+net.node("LungCancer").addChildren(["XRay", "Cough"])
+net.node("Bronchitis").addChildren(["Cough"])
+
+print("Network structure:")
+for node in net.nodes():
+    print(f"{node.name()} -> {[child.name() for child in node.children()]}")
+
+print("CPT for Cough:")
+print(net.node("Cough").cpt())
+
+net.write(netDir+'outputs/smoking_lung_cancer.dne')
