@@ -1,8 +1,9 @@
 from __future__ import print_function
 from bni_netica import *
+from bni_netica import Net
 import time
 
-netDir = "../nets/"
+netDir = "../nets/collection/"
 
 def mainTests():
 	print("[Open NF_V1.dne]")
@@ -200,4 +201,89 @@ def mainTests():
 	print('Utilities:', myNet.node('D').expectedUtils())
 
 
-mainTests()
+# mainTests()
+
+berkeleyAdmissionNet = Net(netDir+"Berkeley Admissions.neta")
+CancerNeapolitanNet = Net(netDir+"Cancer Neapolitan.neta")
+ChestClinicNet = Net(netDir+"ChestClinic.neta")
+ClassifierNet = Net(netDir+"Classifier.neta")
+CoronaryRiskNet = Net(netDir+"Coronary Risk.neta")
+FireNet = Net(netDir+"Fire.neta")
+MendelGeneticsNet = Net(netDir+"Mendel Genetics.neta")
+RatsNet = Net(netDir+"Rats.neta")
+WetGrassNet = Net(netDir+"Wet Grass.neta")
+RatsNoisyOr = Net(netDir+"Rats_NoisyOr.dne")
+
+
+print("Berkeley Admissions Net name:", berkeleyAdmissionNet.name())
+print("Cancer Neapolitan Net name:", CancerNeapolitanNet.name())
+print("Chest Clinic Net name:", ChestClinicNet.name())
+print("Classifier Net name:", ClassifierNet.name())
+print("Coronary Risk Net name:", CoronaryRiskNet.name())
+print("Fire Net name:", FireNet.name())
+print("Mendel Genetics Net name:", MendelGeneticsNet.name())
+print("Rats Net name:", RatsNet.name())
+print("Rat Noisy Or Net name:", RatsNoisyOr.name())
+print("Wet Grass Net name:", WetGrassNet.name())
+
+print()
+for node in RatsNoisyOr.nodes():
+	print(f"{node.name()} -> {[child.name() for child in node.children()]}")
+
+
+import random
+
+def add_noise_to_node_cpt(node, std=0.05, clip_min=0.05, clip_max=0.95):
+	cpt = node.cpt()
+	new_cpt = []
+
+	for row in cpt:
+		noisy_row = []
+		for p in row:
+			noise = random.gauss(0, std)
+			noisy_p = p + noise
+			if noisy_p < clip_min:
+				noisy_p = clip_min
+			elif noisy_p > clip_max:
+				noisy_p = clip_max
+			noisy_row.append(noisy_p)
+
+		# Normalize the row to sum to 1
+		row_sum = sum(noisy_row)
+		normalized_row = [p / row_sum for p in noisy_row]
+		new_cpt.append(normalized_row)
+
+	node.cpt(new_cpt)
+	return node
+
+def add_noise_to_net(net, std=0.1, clip_min=0.05, clip_max=0.95):
+	for node in net.nodes():
+		try:
+			if node.kind() == 0 and node.cpt() is not None: # kind 0 is discrete
+				add_noise_to_node_cpt(node, std, clip_min, clip_max)
+		except Exception as e:
+			print(f"Error processing node {node.name()}: {e}")
+
+	return net
+
+import itertools
+def print_node_cpt(node):
+    print(f"\nCPT for node: {node.name()}")
+    parent_names = [p.name() for p in node.parents()]
+    print(f"Parents: {parent_names}")
+
+    for i, row in enumerate(node.cpt()):
+        parent_combo = next(itertools.islice(node.net.CombinationIterator(node.parents(), returnType="names"), i, None))
+        row_str = ", ".join(f"{state}" for state in parent_combo)
+        print(f"Given [{row_str}]: {['{:.3f}'.format(p) for p in row]}")
+
+noisy_node = RatsNoisyOr.node("Social_Activity")
+print_node_cpt(noisy_node)
+
+# original_cpt = noisy_node.cpt()
+# add_noise_to_node_cpt(noisy_node, std=0.03)
+# print_node_cpt(noisy_node)
+
+newNet = add_noise_to_net(RatsNoisyOr, std=0.03, clip_min=0.05, clip_max=0.95)
+newNet.write("RatsNoisyOr_noisy2.dne")
+

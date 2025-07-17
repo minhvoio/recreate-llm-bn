@@ -512,10 +512,13 @@ def demorganTests():
 
 # net.write(netDir+'outputs/smoking_lung_cancer.dne')
 
-filePath1 = "outputs/smoking_lung_cancer.dne"
-filePath2 = "outputs/test.dne"
 
-myNet = Net(netDir+filePath1)
-print("Re-opened network structure:")
-for node in myNet.nodes():
-		print(f"{node.name()} -> {[child.name() for child in node.children()]}")
+netDir = '../nets/'
+filePath1 = "outputs/smoking_lung_cancer.dne"
+filePath2 = "outputs/test2.dne"
+filePath3 = "outputs/smoking_lung_cancer copy.dne"
+
+myNet = Net(netDir+filePath2)
+# print("Re-opened network structure:")
+# for node in myNet.nodes():
+# 		print(f"{node.name()} -> {[child.name() for child in node.children()]}")
