@@ -1,4 +1,4 @@
-from __future__ import print_function
+# from __future__ import print_function
 from bni_netica import *
 from bni_netica import Net
 import time
